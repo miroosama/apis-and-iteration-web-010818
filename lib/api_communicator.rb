@@ -12,7 +12,7 @@ def find_character(char)
   for num in 1..9
   char_hash = get_characters(num)
   char_hash["results"].each do |person|
-    if person['name'] == char
+    if person['name'].downcase == char.downcase
     return person
     end
   end
@@ -25,6 +25,7 @@ def get_character_movies_from_api(character)
   character_films = found_character["films"]
 end
 def parse_character_movies(films_hash)
+  films_hash ||= []
   movies_arr = []
   films_hash.map do |link|
     movie = RestClient.get("#{link}")
@@ -39,6 +40,7 @@ def show_character_movies(character)
   films_hash = get_character_movies_from_api(character)
   parse_character_movies(films_hash)
 end
+
 
 ## BONUS
 # that `get_character_movies_from_api` method is probably pretty long. Does it do more than one job?
